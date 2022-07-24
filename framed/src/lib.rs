@@ -178,7 +178,7 @@ macro_rules! const_fn {
 
 // ## extern crate statements
 extern crate byteorder;
-extern crate cobs;
+extern crate postcard_cobs;
 
 #[cfg(feature = "use_std")]
 extern crate core;

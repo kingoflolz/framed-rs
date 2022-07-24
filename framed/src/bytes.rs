@@ -82,7 +82,7 @@ use ::{BoxPayload, BoxEncoded};
 use ::checksum::MAX_CHECKSUM_LEN;
 use ::error::{Error, Result};
 use ::typed;
-use cobs;
+use postcard_cobs;
 use serde::Serialize;
 use serde::de::DeserializeOwned;
 
@@ -192,7 +192,7 @@ impl Codec {
         let checksum_value = checksum_type.calculate(p);
 
         let cobs_len = {
-            let mut cobs_enc = cobs::CobsEncoder::new(dest);
+            let mut cobs_enc = postcard_cobs::CobsEncoder::new(dest);
             cobs_enc.push(p)
                     .map_err(|_| Error::CobsEncodeFailed)?;
             if checksum_value.len() > 0 {
@@ -288,7 +288,7 @@ impl Codec {
             if cobs_payload.len() == 0 {
                 0
             } else {
-                cobs::decode(cobs_payload, dest)
+                postcard_cobs::decode(cobs_payload, dest)
                     .map_err(|_| Error::CobsDecodeFailed)?
             };
         let cobs_decoded = &dest[0..cobs_decoded_len];
